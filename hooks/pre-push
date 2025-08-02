@@ -1,0 +1,11 @@
+#!/bin/sh
+
+STAGED=$(git diff --cached --name-only)
+
+echo "$STAGED" | grep -E '(^|/)\.env' > /dev/null
+if [ $? -eq 0 ]; then
+  echo "\033[0;31m🚨 WARNING: You're trying to push a .env file! Push blocked.\033[0m"
+  exit 1
+fi
+
+exit 0
