@@ -1,18 +1,30 @@
 {
-  "name": "noleak-guardian",
+  "name": "michu",
   "version": "1.0.0",
-  "description": "",
+  "description": " Michu - One-time installable Git extension to protect your secrets by blocking .env pushes globally.",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "noleak-guardian": "./bin/install.js"
+    "michu": "./bin/install.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "node ./bin/install.js",
+    "postinstall": "node ./bin/install.js",
+    "test": "echo \"No tests defined yet.\" && exit 0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "michu",
+    "git",
+    "hook",
+    "pre-push",
+    ".env",
+    "secrets",
+    "cli",
+    "security",
+    "noleak"
+  ],
+  "author": "Samuel Michu",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^5.4.1",
     "prompts": "^2.4.2"
