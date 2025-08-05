@@ -5,12 +5,14 @@
   "main": "./lib/checkSecrets.js",
   "type": "module",
   "bin": {
-    "michu": "./bin/install.js"
+    "michu": "./bin/michu.js"
   },
   "scripts": {
     "install": "node ./bin/install.js",
     "postinstall": "node ./bin/install.js",
-    "test": "echo \"No tests defined yet.\" && exit 0"
+    "test": "node test/test.js",
+    "lint": "echo \"No linter configured yet.\" && exit 0",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "michu",

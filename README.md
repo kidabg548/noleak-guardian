@@ -10,13 +10,39 @@ npm install -g michu
 
 ## Usage
 
-After installation, simply run:
-
+### Quick Start
 ```bash
-michu
+# Install globally
+npm install -g michu
+
+# Set up the pre-push hook
+michu install
 ```
 
-This will install the pre-push hook globally. All new Git repositories you create will automatically have secret protection enabled.
+### Commands
+```bash
+michu install     # Install the global pre-push hook (default)
+michu uninstall   # Remove the global pre-push hook
+michu config      # Show current configuration
+michu test        # Test secret detection on current repository
+michu status      # Check installation status
+michu help        # Show help message
+```
+
+### Configuration
+The tool creates a config file at `~/.michu-config.json` where you can customize:
+- Secret file patterns
+- Safe file patterns (ignored)
+- Content patterns to check for
+- Behavior settings
+
+```bash
+# View current config
+michu config
+
+# Edit config manually
+nano ~/.michu-config.json
+```
 
 ## How it works
 
@@ -40,16 +66,35 @@ This will install the pre-push hook globally. All new Git repositories you creat
 
 ## What it protects against
 
-- Staging `.env` files for commit
-- Pushing repositories that already contain tracked `.env` files
-- Any file matching the pattern `.env*` (including `.env.local`, `.env.production`, etc.)
+### File Types
+- `.env*` files (`.env`, `.env.local`, `.env.production`, etc.)
+- `.envrc` (direnv files)
+- `.secrets*` files
+- `secrets.*` files (JSON, YAML, TOML)
+- `config.*` files that might contain secrets
+- SSL/TLS private keys (`.pem`, `.key`, `.p12`, `.pfx`)
+- SSH private keys (`id_rsa`)
+- AWS credentials (`.aws/credentials`)
+- Docker and Git ignore files
+
+### Content Patterns
+- Passwords, secrets, API keys
+- Database connection strings
+- AWS access keys
+- Private keys and tokens
+- Any variable containing sensitive data
+
+### Safe Files (Automatically Ignored)
+- `.env.example`, `.env.template`, `.env.sample`
+- `config.example.*`, `secrets.example.*`
+- Template and sample files
 
 ## Example Output
 
 When trying to push with a `.env` file:
 
 ```
-🚨 WARNING: You're trying to push a staged .env file! Push blocked by NoLeak Guardian.
+🚨 WARNING: You're trying to push a staged .env file! Push blocked by Michu.
 🔍 Found in staged files:
 - .env
 ```

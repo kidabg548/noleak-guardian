@@ -93,6 +93,24 @@ node "$CHECKSCRIPT"
   return hookContent;
 }
 
+function validatePackageIntegrity() {
+  const requiredFiles = [
+    path.join(__dirname, '../lib/checkSecrets.js'),
+    path.join(__dirname, '../lib/config.js'),
+    path.join(__dirname, '../lib/logger.js')
+  ];
+  
+  for (const file of requiredFiles) {
+    if (!fs.existsSync(file)) {
+      console.error(chalk.red(`❌ Missing required file: ${file}`));
+      console.error(chalk.yellow('Package appears to be corrupted. Please reinstall.'));
+      process.exit(1);
+    }
+  }
+  
+  console.log(chalk.green('✅ Package integrity verified'));
+}
+
 function handleExistingHook() {
   if (fs.existsSync(DEST_HOOK)) {
     const backupPath = `${DEST_HOOK}.bak.${Date.now()}`;
@@ -105,9 +123,34 @@ function handleExistingHook() {
   }
 }
 
+function verifyInstallation() {
+  // Check if hook file exists and is executable
+  if (!fs.existsSync(DEST_HOOK)) {
+    console.error(chalk.red('❌ Installation verification failed: Hook file not created'));
+    process.exit(1);
+  }
+  
+  // Check if Git config was set
+  try {
+    const templateDir = execSync('git config --global init.templateDir', { encoding: 'utf8' }).trim();
+    if (templateDir !== GIT_TEMPLATE_DIR) {
+      console.error(chalk.red('❌ Installation verification failed: Git config not set correctly'));
+      process.exit(1);
+    }
+  } catch (e) {
+    console.error(chalk.red('❌ Installation verification failed: Git config not found'));
+    process.exit(1);
+  }
+  
+  console.log(chalk.green('✅ Installation verified successfully'));
+}
+
 function installGlobalHook() {
   // Check if Git is installed
   checkGitInstallation();
+  
+  // Validate package integrity
+  validatePackageIntegrity();
   
   // Create hooks directory
   fs.mkdirSync(HOOKS_DIR, { recursive: true });
@@ -130,11 +173,15 @@ function installGlobalHook() {
     process.exit(1);
   }
 
-  console.log(chalk.green('✅ NoLeak Guardian installed globally!'));
+  // Verify installation
+  verifyInstallation();
+
+  console.log(chalk.green('✅ Michu installed globally!'));
   console.log(chalk.blue('🔐 All new Git repos will now have secret protection. 💥'));
   console.log(chalk.yellow('💡 Note: This only applies to new repositories.'));
   console.log(chalk.yellow('   For existing repos, you may need to manually copy the hook.'));
   console.log(chalk.cyan('🐛 To debug issues, run: DEBUG=true git push'));
+  console.log(chalk.cyan('📋 Check status with: michu status'));
 }
 
 installGlobalHook();
