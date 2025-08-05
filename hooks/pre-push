@@ -1,6 +1,10 @@
 #!/bin/sh
 
-# Absolute path to your checksecret.js file
-CHECKSCRIPT="/c/Users/kall/Downloads/noleak-guardian/lib/checkSecrets.js"
-# Run it
-node "$CHECKSCRIPT"
+# This is a template pre-push hook for michu
+# The actual working hook is created dynamically by the install script
+# and placed in the user's global Git templates directory
+
+# The dynamic hook will automatically find and run checkSecrets.js
+# regardless of where the michu package is installed
+
+echo "This is a template file. Run 'michu' to install the actual working hook."

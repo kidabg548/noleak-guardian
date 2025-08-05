@@ -2,7 +2,7 @@
   "name": "michu",
   "version": "1.0.0",
   "description": " Michu - One-time installable Git extension to protect your secrets by blocking .env pushes globally.",
-  "main": "index.js",
+  "main": "./lib/checkSecrets.js",
   "type": "module",
   "bin": {
     "michu": "./bin/install.js"
