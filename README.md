@@ -1,25 +1,38 @@
 # Michu - NoLeak Guardian
 
-A one-time installable Git extension to protect your secrets by blocking `.env` file pushes globally.
+[![npm version](https://badge.fury.io/js/michu.svg)](https://badge.fury.io/js/michu)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/your-username/michu.svg?style=social&label=Star)](https://github.com/your-username/michu)
 
-## Installation
+🔐 **Protect your secrets from accidental Git pushes**
 
-```bash
-npm install -g michu
-```
+A one-time installable Git extension that automatically blocks pushes containing sensitive files like `.env`, API keys, and other secrets.
 
-## Usage
+## 📋 Table of Contents
 
-### Quick Start
+- [🚀 Quick Start](#-quick-start)
+- [📖 Usage](#-usage)
+- [🔧 How it works](#-how-it-works)
+- [✨ Features](#-features)
+- [🛡️ What it protects against](#️-what-it-protects-against)
+- [📋 Example Output](#-example-output)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🗑️ Uninstall](#️-uninstall)
+- [📄 License](#-license)
+
+## 🚀 Quick Start
+
 ```bash
 # Install globally
 npm install -g michu
 
-# Set up the pre-push hook
+# Set up protection (one-time setup)
 michu install
 ```
 
-### Commands
+## 📖 Usage
+
+### Available Commands
 ```bash
 michu install     # Install the global pre-push hook (default)
 michu uninstall   # Remove the global pre-push hook
@@ -44,15 +57,15 @@ michu config
 nano ~/.michu-config.json
 ```
 
-## How it works
+## 🔧 How it works
 
-1. **Global Installation**: When you run `michu`, it installs a pre-push hook template globally
+1. **Global Installation**: When you run `michu install`, it sets up a pre-push hook template globally
 2. **Automatic Protection**: Every new Git repository you create will automatically inherit this protection
-3. **Dynamic Path Resolution**: The hook dynamically finds the `checkSecrets.js` script regardless of where the package is installed
-4. **Secret Detection**: Before each push, it checks for any `.env` files in your staged or tracked files
-5. **Push Blocking**: If `.env` files are detected, the push is blocked with a clear warning message
+3. **Dynamic Path Resolution**: The hook dynamically finds the secret detection script regardless of where the package is installed
+4. **Secret Detection**: Before each push, it checks for sensitive files in your staged or tracked files
+5. **Push Blocking**: If secrets are detected, the push is blocked with a clear warning message
 
-## Features
+## ✨ Features
 
 - ✅ **Global Installation**: One-time setup works for all future repositories
 - ✅ **Cross-Platform**: Works on Windows, macOS, and Linux
@@ -64,7 +77,7 @@ nano ~/.michu-config.json
 - ✅ **Debug Mode**: Run `DEBUG=true git push` for troubleshooting
 - ✅ **Robust Path Resolution**: Uses reliable npm methods to find the package
 
-## What it protects against
+## 🛡️ What it protects against
 
 ### File Types
 - `.env*` files (`.env`, `.env.local`, `.env.production`, etc.)
@@ -89,17 +102,21 @@ nano ~/.michu-config.json
 - `config.example.*`, `secrets.example.*`
 - Template and sample files
 
-## Example Output
+## 📋 Example Output
 
 When trying to push with a `.env` file:
 
 ```
-🚨 WARNING: You're trying to push a staged .env file! Push blocked by Michu.
-🔍 Found in staged files:
-- .env
+🚨 SECURITY WARNING: Potential secrets detected! Push blocked by NoLeak Guardian.
+🔍 Staged files with potential secrets:
+  - .env
+💡 To fix this:
+   1. Remove secrets from tracked files: git rm --cached <file>
+   2. Add files to .gitignore
+   3. Use environment variables instead of hardcoded secrets
 ```
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### Debug Mode
 If you encounter issues, run the hook in debug mode:
@@ -108,7 +125,7 @@ If you encounter issues, run the hook in debug mode:
 DEBUG=true git push
 ```
 
-This will show you exactly which paths the hook is trying to use to find the `checkSecrets.js` script.
+This will show you exactly which paths the hook is trying to use to find the secret detection script.
 
 ### Manual Installation for Existing Repositories
 If you have existing repositories that don't have the hook, you can manually copy it:
@@ -118,15 +135,25 @@ cp ~/.git-templates/hooks/pre-push .git/hooks/pre-push
 chmod +x .git/hooks/pre-push
 ```
 
-## Uninstall
+## 🗑️ Uninstall
 
 To remove the global hook:
+
+```bash
+michu uninstall
+```
+
+Or manually:
 
 ```bash
 git config --global --unset init.templateDir
 rm -rf ~/.git-templates
 ```
 
-## License
+## 📄 License
 
-MIT 
+MIT
+
+---
+
+**Made by Samuel Michu** 
