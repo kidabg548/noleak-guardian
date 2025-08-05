@@ -2,7 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/michu.svg)](https://badge.fury.io/js/michu)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/your-username/michu.svg?style=social&label=Star)](https://github.com/your-username/michu)
+[![GitHub stars](https://img.shields.io/github/stars/kidabg548/noleak-guardian.svg?style=social&label=Star)](https://github.com/kidabg548/noleak-guardian)
+
 
 🔐 **Protect your secrets from accidental Git pushes**
 
